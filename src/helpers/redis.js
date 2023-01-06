@@ -8,7 +8,10 @@ export const connectDB = async () => {
 };
 
 export const saveData = async (data) => {
-    await client.set(KEY, data);
+    await client.set(KEY, data.join(','));
 };
 
-export const getData = () => client.get(KEY) || [];
+export const getData = async () => {
+    const data = await client.get(KEY);
+    return data ? data.split(',') : [];
+};

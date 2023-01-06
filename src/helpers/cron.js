@@ -8,7 +8,12 @@ const everyHourJob = cron.schedule('0 * * * *', async () => {
     const newData = await getContractData();
     if (prevData.length !== newData.length);
     await saveData(newData);
-    sendMail();
+
+    // Here we are removing the duplicate data and creating string with newly added data
+    const newDataString = newData
+        .slice(prevData.length, newData.length)
+        .join(', ');
+    sendMail(newDataString);
 });
 
 export { everyHourJob };
